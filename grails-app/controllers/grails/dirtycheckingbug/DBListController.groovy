@@ -5,8 +5,6 @@ import static org.springframework.http.HttpStatus.*
 
 class DBListController {
 
-    DBListService DBListService
-
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -14,10 +12,10 @@ class DBListController {
 
         dblist.entries.each { it ->
             it.value = it.value + "1"
-            render "DBListEntry: Nothing is dirty: ${it.listDirtyPropertyNames()}<br>"
+            render "DBListEntry: This should be dirty but it isn't: ${it.listDirtyPropertyNames()}<br>"
         }
 
-        render "DBList: Nothing is dirty: ${dblist.listDirtyPropertyNames()}<br><br>"
+        render "DBList: This is not dirty (optional bug): ${dblist.listDirtyPropertyNames()}<br><br>"
 
         dblist.entries.each { it ->
             it.trackChanges()
@@ -28,7 +26,7 @@ class DBListController {
             render "DBListEntry: It works!: ${it.listDirtyPropertyNames()}<br>"
         }
 
-        render "DBList: Nothing is dirty: ${dblist.listDirtyPropertyNames()}<br><br>"
+        render "DBList: This is not dirty (optional bug): ${dblist.listDirtyPropertyNames()}<br><br>"
 
         render "Output: ${dblist.entries*.value}<br>"
     }
